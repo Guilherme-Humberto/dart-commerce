@@ -1,0 +1,172 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  stores    Store[]
+
+  @@map("tb_users")
+}
+
+model Store {
+  id          String      @id @default(uuid())
+  name        String
+  document    String      @unique
+  description String?
+  addressId   String
+  phone       String[]
+  email       String?     @unique
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  address     Addresses   @relation(fields: [addressId], references: [id])
+  products    Products[]
+  customers   Customers[]
+  User        User        @relation(fields: [userId], references: [id])
+  userId      String      @db.VarChar(36)
+
+  @@map("tb_stores")
+}
+
+model Products {
+  id          String             @id @default(uuid())
+  name        String
+  sku         String?            @unique
+  description String
+  active      Boolean
+  images      String[]
+  quantity    Int
+  price       Decimal            @db.Decimal(10, 2)
+  category    Categories         @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  reviews     Reviews[]
+  orderItems  OrderItems[]
+  Store       Store              @relation(fields: [storeId], references: [id])
+  storeId     String             @db.VarChar(36)
+  variations  ProductVariation[]
+
+  @@map("tb_products")
+}
+
+model ProductVariation {
+  id        String   @id @default(uuid())
+  productId String
+  name      String
+  value     String
+  sku       String?
+  price     Decimal? @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Products @relation(fields: [productId], references: [id])
+
+  @@map("tb_product_variations")
+}
+
+model Categories {
+  id        String     @id @default(uuid())
+  slug      String
+  active    Boolean
+  products  Products[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("tb_categories")
+}
+
+model Customers {
+  id          String    @id @default(uuid())
+  name        String
+  email       String    @unique
+  password    String
+  phone       String?
+  active      Boolean
+  address     Addresses @relation(fields: [addressesId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  addressesId String    @db.VarChar(36)
+  reviews     Reviews[]
+  orders      Orders[]
+  Store       Store     @relation(fields: [storeId], references: [id])
+  storeId     String    @db.VarChar(36)
+
+  @@map("tb_customers")
+}
+
+model Addresses {
+  id        String      @id @default(uuid())
+  zipCode   String      @unique
+  street    String
+  number    String
+  city      String
+  state     String
+  country   String
+  active    Boolean
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  customers Customers[]
+  orders    Orders[]
+  Store     Store[]
+
+  @@map("tb_addresses")
+}
+
+model Reviews {
+  id         String    @id @default(uuid())
+  rating     Int
+  comment    String?
+  customerId String    @db.VarChar(36)
+  productId  String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  customer   Customers @relation(fields: [customerId], references: [id])
+  product    Products  @relation(fields: [productId], references: [id])
+
+  @@map("tb_reviews")
+}
+
+model Orders {
+  id           String   @id @default(uuid())
+  orderNumber  String
+  customerId   String   @db.VarChar(36)
+  addressId    String   @db.VarChar(36)
+  status       String
+  totalAmount  Decimal  @db.Decimal(10, 2)
+  observations String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  customer   Customers    @relation(fields: [customerId], references: [id])
+  address    Addresses    @relation(fields: [addressId], references: [id])
+  orderItems OrderItems[]
+
+  @@map("tb_orders")
+}
+
+model OrderItems {
+  id        String   @id @default(uuid())
+  orderId   String   @db.VarChar(36)
+  productId String   @db.VarChar(36)
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order   Orders   @relation(fields: [orderId], references: [id])
+  product Products @relation(fields: [productId], references: [id])
+
+  @@map("tb_order_items")
+}
