@@ -23,3 +23,14 @@ export const Form = styled.div`
     grid-column: 1 / -1;
   }
 `;
+
+export const ButtonGenerateCode = styled.button`
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  background-color: transparent;
+
+  svg {
+    opacity: 0.6;
+  }
+`;

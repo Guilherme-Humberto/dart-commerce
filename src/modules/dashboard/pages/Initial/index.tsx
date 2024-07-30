@@ -6,7 +6,7 @@ import PanelLayout from "@/modules/shared/components/template/Layout";
 
 const Dashboard: React.FC = () => {
   return (
-    <PanelLayout>
+    <PanelLayout loadingLayer>
       <Styles.Container>
         <Styles.AnalysisContainer>
           <AnalysisCard

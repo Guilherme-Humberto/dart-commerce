@@ -17,7 +17,10 @@ const AdditionalInfosForm: React.FC = () => {
           <Controller
             control={control}
             render={({ field }) => (
-              <Input placeholder={"Ex: Leite"} {...field} />
+              <Input
+                placeholder="Adicione especificações ao produto"
+                {...field}
+              />
             )}
             name="additionalInfos.especifications"
           />
@@ -26,7 +29,7 @@ const AdditionalInfosForm: React.FC = () => {
           <Controller
             control={control}
             render={({ field }) => (
-              <Input placeholder={"Ex: Leite"} {...field} />
+              <Input placeholder="Descreva os itens no produto" {...field} />
             )}
             name="additionalInfos.includedItems"
           />
@@ -35,7 +38,10 @@ const AdditionalInfosForm: React.FC = () => {
           <Controller
             control={control}
             render={({ field }) => (
-              <Input placeholder={"Ex: Leite"} {...field} />
+              <Input
+                placeholder="Descreva detalhes sobre a garantia do produto"
+                {...field}
+              />
             )}
             name="additionalInfos.warrantyDetails"
           />
@@ -44,7 +50,10 @@ const AdditionalInfosForm: React.FC = () => {
           <Controller
             control={control}
             render={({ field }) => (
-              <Input placeholder={"Ex: Leite"} {...field} />
+              <Input
+                placeholder="Link externo para redirecionamento"
+                {...field}
+              />
             )}
             name="additionalInfos.externalLink"
           />
@@ -54,7 +63,10 @@ const AdditionalInfosForm: React.FC = () => {
           <Controller
             control={control}
             render={({ field }) => (
-              <Input placeholder={"Ex: Leite"} {...field} />
+              <Input
+                placeholder="Url do video do produto (Vimeo/Youtube)"
+                {...field}
+              />
             )}
             name="additionalInfos.videoUrl"
           />

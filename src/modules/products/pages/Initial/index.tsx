@@ -8,6 +8,7 @@ import Button from "@/modules/shared/components/atoms/Button";
 import Input from "@/modules/shared/components/atoms/Input";
 import { useProductsTableList } from "../../hooks/useProductsTableList";
 import { useRouter } from "next/router";
+import FeedBackPage from "../../components/molecules/FeedBackPage";
 
 export type ProductTable<T = string> = {
   id: T;
@@ -38,18 +39,30 @@ const Products: React.FC = () => {
             </Button>
           </Styles.ProductsActionsContainer>
         </Styles.ProductsInfoContainer>
-        <Styles.ProductsListContainer>
-          <Table<
-            ProductTable,
-            ProductTable<ITableModelAttr> & {
-              actions: ITableModelAttr;
-            }
-          >
-            enableSection={true}
-            data={mockProductList}
-            dataModel={model}
+        {mockProductList.length === 0 ? (
+          <FeedBackPage
+            title="Chegou a hora de cadastrar seu primeiro produto!"
+            subTitle="Clique no botão abaixo para começar o cadastro ou importe produtos através de uma planilha."
+            buttonAction={[
+              <Button variant={"primary-dark"} onClick={() => {}}>
+                Novo Produto
+              </Button>,
+            ]}
           />
-        </Styles.ProductsListContainer>
+        ) : (
+          <Styles.ProductsListContainer>
+            <Table<
+              ProductTable,
+              ProductTable<ITableModelAttr> & {
+                actions: ITableModelAttr;
+              }
+            >
+              enableSection={true}
+              data={mockProductList}
+              dataModel={model}
+            />
+          </Styles.ProductsListContainer>
+        )}
       </Styles.Container>
     </PanelLayout>
   );

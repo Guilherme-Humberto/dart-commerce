@@ -10,6 +10,8 @@ import z from "zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import UploadImagesForm from "../../components/molecules/Forms/CreateProducts/UploadImages";
+import Button from "@/modules/shared/components/atoms/Button";
+import Breadcrumbs from "@/modules/shared/components/molecules/Breadcrumbs";
 
 const createUserFormSchema = z.object({
   productType: z.string(),
@@ -37,6 +39,12 @@ const CreateProduct: React.FC = () => {
     <PanelLayout>
       <Styles.Container>
         <FormProvider {...form}>
+          <Styles.FloatingFormHeader>
+            <Breadcrumbs />
+            <Button variant="primary-dark" onClick={() => {}}>
+              Salvar alteraçoes
+            </Button>
+          </Styles.FloatingFormHeader>
           <BasicInfosForm />
 
           <Styles.AdditionalInfosContainer>

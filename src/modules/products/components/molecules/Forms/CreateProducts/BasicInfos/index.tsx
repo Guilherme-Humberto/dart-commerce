@@ -7,9 +7,15 @@ import { FormTitle } from "@/modules/products/pages/Create/styles";
 import SelectRadio from "@/modules/shared/components/molecules/SelectRadio";
 import { Controller, useFormContext } from "react-hook-form";
 import { productTypeOptions } from "@/modules/products/data/constants/productTypeOptions";
+import { FeatherIcons } from "@/styles/global";
+import { nanoid } from "nanoid";
 
 const BasicInfosForm: React.FC = () => {
   const { control, setValue, watch: getValue } = useFormContext();
+
+  const generateProductCode = () => {
+    setValue("basicInfos.code", nanoid());
+  };
 
   return (
     <Styles.Container>
@@ -30,17 +36,25 @@ const BasicInfosForm: React.FC = () => {
             render={({ field }) => (
               <Input placeholder={"Ex: Leite"} {...field} />
             )}
-            name="title"
+            name="basicInfos.title"
           />
         </InputGroup>
 
-        <InputGroup className="code" label="Código">
+        <InputGroup
+          className="code"
+          label="Código"
+          rightBtn={
+            <Styles.ButtonGenerateCode onClick={generateProductCode}>
+              <FeatherIcons.FiRefreshCw />
+            </Styles.ButtonGenerateCode>
+          }
+        >
           <Controller
             control={control}
             render={({ field }) => (
               <Input placeholder={"Informe um codigo"} {...field} />
             )}
-            name="code"
+            name="basicInfos.code"
           />
         </InputGroup>
         <InputGroup className="main-category" label="Categoria principal">
@@ -53,7 +67,7 @@ const BasicInfosForm: React.FC = () => {
                 placeholder="Selecione uma categoria"
               />
             )}
-            name="mainCategory"
+            name="basicInfos.mainCategory"
           />
         </InputGroup>
         <InputGroup className="sub-categories" label="Subcategorias">
@@ -67,7 +81,7 @@ const BasicInfosForm: React.FC = () => {
                 isMulti
               />
             )}
-            name="subCategories"
+            name="basicInfos.subCategories"
           />
         </InputGroup>
         <InputGroup className="description" label="Descrição do produto">
@@ -76,7 +90,7 @@ const BasicInfosForm: React.FC = () => {
             render={({ field }) => (
               <Input {...field} placeholder="Descrição do produto" />
             )}
-            name="subCategories"
+            name="basicInfos.subCategories"
           />
         </InputGroup>
       </Styles.Form>

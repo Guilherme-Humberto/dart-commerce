@@ -3,8 +3,10 @@ import * as Styles from "./styles";
 import SideBar from "../../organisms/SideBar";
 import { FeatherIcons } from "@/styles/global";
 import SubMenu from "../../organisms/SideBar/SubMenu";
+import { ClockLoader } from "react-spinners";
 
 interface PanelLayoutProps {
+  loadingLayer?: boolean;
   children: React.ReactElement;
 }
 
@@ -61,7 +63,19 @@ const PanelLayout: React.FC<PanelLayoutProps> = (props) => {
           },
         ]}
       />
-      <Styles.Content>{props.children}</Styles.Content>
+      {props?.loadingLayer ? (
+        <Styles.LoadingLayer>
+          <div>
+            <ClockLoader />
+            <Styles.LoadingLayerTitle>
+              Está página em construção e em breve teremos novidas. Nos siga nas
+              redes sociais para ficar por dentro de tudo.
+            </Styles.LoadingLayerTitle>
+          </div>
+        </Styles.LoadingLayer>
+      ) : (
+        <Styles.Content>{props.children}</Styles.Content>
+      )}
     </Styles.Container>
   );
 };
